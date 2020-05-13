@@ -13,6 +13,7 @@ mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870
 //Configuração do server para usar body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+var urlencodeParser = bodyParser.urlencoded({ extended: false});
 
 //Definindo a porta via arquivo de configuração
 const port = process.env.port || 3000;
@@ -23,7 +24,7 @@ const productRoute = require('./src/routes/product-routes');
 const signupRoute = require('./src/routes/signup-route');
 const loginRoute = require('./src/routes/login-route');
 const userRoute = require('./src/routes/user-routes');
-
+const vendedorRoute = require('./src/routes/vendedor-route');
 //Vincular a aplicacao (app) com o motor de rotas
 //Rota geral (teste)
 app.use('/api', indexRoute);
@@ -34,6 +35,7 @@ app.use('/api/register', signupRoute);
 //Rota para login
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
+app.use('/api/vendedor', vendedorRoute);
 
 
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
@@ -48,8 +50,8 @@ app.get('/cadastroProdutos', function(req, res){
 app.get('/cadastroClientes', function(req, res){
     res.render('form-cliente');
 });
-app.post('/cadastroClientes', function(req, res){
-    print(req);
+app.post('./cadastroVendedor', urlencodeParser, function(req, res){
+    console.log(req.body);
     res.render('form-cliente');
 });
 app.listen(port, () => {
