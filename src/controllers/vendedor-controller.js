@@ -4,7 +4,6 @@ const repository = require('../repositories/vendedor-repository')
 
 //Post-Controller
 exports.post = async (req, res) => {
-
     try {
         await repository.post({
             nome: req.body.nome,

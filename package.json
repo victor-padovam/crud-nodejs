@@ -17,6 +17,7 @@
   "author": "Fabio Navarro",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "body-parser": "1.19.0",
     "dotenv-safe": "^8.2.0",

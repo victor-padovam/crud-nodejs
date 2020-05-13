@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 const app = express();
 var mongoose = require('mongoose');
 const handlebars = require('express-handlebars');
+var axios = require("axios");
 
 
 //PERSISTÊNCIA
@@ -41,19 +42,29 @@ app.use('/api/vendedor', vendedorRoute);
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+//Cadastro de Vendedor requisições API
 app.get('/cadastroVendedor', function(req, res){
     res.render('form-vendedor');
 });
+app.post('/cadastroVendedor', function(req, res){
+    var nome = req.body.nome;
+    var rg = req.body.rg;
+    var email = req.body.email;
+    var totalVendas = req.body.totalVendas;
+    var body = req;
+    axios.post("/api/vendedor", {body});
+    res.render('form-vendedor');
+});
+
+//Cadastro de Produto requisições API
 app.get('/cadastroProdutos', function(req, res){
     res.render('form-produtos.handlebars');
 });
+//Cadastro de Clientes requisições API
 app.get('/cadastroClientes', function(req, res){
     res.render('form-cliente');
 });
-app.post('./cadastroVendedor', urlencodeParser, function(req, res){
-    console.log(req.body);
-    res.render('form-cliente');
-});
+
 app.listen(port, () => {
     console.log('Server OK');
 });
