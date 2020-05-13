@@ -2,6 +2,8 @@ var express = require ('express');
 var bodyParser = require('body-parser');
 const app = express();
 var mongoose = require('mongoose');
+const handlebars = require('express-handlebars');
+
 
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870.mongodb.net/test?retryWrites=true&w=majority',
@@ -34,6 +36,22 @@ app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 
 
+app.engine('handlebars', handlebars({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+app.get('/cadastroVendedor', function(req, res){
+    res.render('form-vendedor');
+});
+app.get('/cadastroProdutos', function(req, res){
+    res.render('form-produtos.handlebars');
+});
+app.get('/cadastroClientes', function(req, res){
+    res.render('form-cliente');
+});
+app.post('/cadastroClientes', function(req, res){
+    print(req);
+    res.render('form-cliente');
+});
 app.listen(port, () => {
     console.log('Server OK');
 });
