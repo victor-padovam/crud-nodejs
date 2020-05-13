@@ -38,3 +38,19 @@ exports.register = async (mail, pass) => {
     }
 
 }
+
+exports.post = async (data) => {
+        console.log(data);
+
+    var user = new User(data);
+    await user.save();
+}
+
+exports.delete = async (id) => {
+    await User.findOneAndRemove(id);
+}
+
+exports.get = async () => {
+    const res = await User.find();
+    return res;
+}
