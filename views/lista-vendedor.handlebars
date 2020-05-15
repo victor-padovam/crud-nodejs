@@ -21,7 +21,21 @@ tr:nth-child(even) {
 </head>
 <body>
 
-<h4>Vendedores Cadastrados</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <h4>Vendedores Cadastrados</h4>
+    </div>
+    <div class="col-sm">
+      
+    </div>
+    <div class="col-sm text-right">
+<button hrftype="button" rel="tooltip" class="btn btn-success btn-round btn-just-icon btn-sm" data-original-title="" title="">
+        <i class="material-icons">INCLUIR</i>
+</button>
+    </div>
+  </div>
+</div>
 <hr>
 
 <table class="table table-striped">
@@ -31,6 +45,7 @@ tr:nth-child(even) {
     <th>RG</th>
     <th>Email</th>
     <th>Total de Vendas</th>
+    <th></th>
       </tr>
     </thead>
     {{#each vendedores}}
@@ -40,6 +55,14 @@ tr:nth-child(even) {
     <td>{{rg}}</td>
     <td>{{email}}</td>
     <td>{{totalVendas}}</td>
+    <td class="td-actions text-center">
+    <button type="button" rel="tooltip" class="btn btn-success btn-round btn-just-icon btn-sm" data-original-title="" title="">
+        <i class="material-icons">Alterar</i>
+    </button>
+    <button type="button" rel="tooltip" class="btn btn-danger btn-round btn-just-icon btn-sm" data-original-title="" title="">
+        <i class="material-icons">Excluir</i>
+    </button>
+    </td>
       </tr>
     </tbody>
     {{else}}
