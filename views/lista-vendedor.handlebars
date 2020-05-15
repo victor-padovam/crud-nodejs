@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h4>Vendedores Cadastrados</h4>
+<hr>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+    <th>Nome</th>
+    <th>RG</th>
+    <th>Email</th>
+    <th>Total de Vendas</th>
+      </tr>
+    </thead>
+    {{#each vendedores}}
+    <tbody>
+      <tr>
+    <td>{{nome}}</td>
+    <td>{{rg}}</td>
+    <td>{{email}}</td>
+    <td>{{totalVendas}}</td>
+      </tr>
+    </tbody>
+    {{else}}
+{{/each}}
+  </table>
+</div>

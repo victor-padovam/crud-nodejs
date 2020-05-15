@@ -1,6 +1,7 @@
 const Produto = require("../app/models/product");
 
-const repository = require('../repositories/vendedor-repository')
+const repository = require('../repositories/vendedor-repository');
+const handlebars = require('express-handlebars');
 
 //Post-Controller
 exports.post = async (req, res) => {
@@ -11,9 +12,9 @@ exports.post = async (req, res) => {
             email: req.body.email,
             totalVendas: req.body.totalVendas
         });
-        res.status(201).send({
-            message: "Vendedor inserido com sucesso"
-        })
+        res.render(
+            'lista-vendedor'
+        );
     } catch (error) {
         res.status(500).send({
             message: "Falha ao inserir um produto",
