@@ -48,14 +48,14 @@ app.get('/cadastroVendedor', function(req, res){
 });
 
 app.get('/lista-vendedor', function(req, res){
-    Vendedor.find().then((vendedores) => {
+  /*  Vendedor.find().then((vendedores) => {
         res.render("lista-vendedor", {vendedores: vendedores.map(vendedor => vendedor.toJSON())})
-        console.log(vendedor);
     }).catch((err) => {
         req.flash("error_msg", "Houve um erro ao listar");
         res.redirect("/");
     })
-    //res.render('form-vendedor');
+    */
+    res.render('lista-vendedor');
 });
 
 
