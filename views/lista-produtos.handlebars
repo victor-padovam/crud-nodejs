@@ -27,14 +27,14 @@
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <h4>Vendedores Cadastrados</h4>
+        <h4>Produtos Cadastrados</h4>
       </div>
       <div class="col-sm">
 
       </div>
       <div class="col-sm text-right">
         <a href="#" title="Cadastrar Vendedor" onClick="impressaoIndex();" class="btn deleddte btn-outline-primary">Impressão</a>
-        <a href="/CadastroVendedor" title="Cadastrar Vendedor" class="btn deleddte btn-success">CADASTRAR</a>
+        <a href="/CadastroProduto" title="Cadastrar Vendedor" class="btn deleddte btn-success">CADASTRAR</a>
       </div>
     </div>
   </div>
@@ -46,9 +46,8 @@
         <thead>
           <tr>
             <th>Nome</th>
-            <th>RG</th>
-            <th>Email</th>
-            <th>Total de Vendas</th>
+            <th>Preço</th>
+            <th>Descrição</th>
             <th></th>
           </tr>
         </thead>
@@ -61,7 +60,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Vendedor Excluido com Exito...</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Produto Excluido com Exito...</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -70,7 +69,7 @@
         <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif"  width="210" style="margin-left: 120px;" margin-left="120px;" height="140">
       </div>
       <div class="modal-footer">
-        <a href="/lista-vendedor" title="Cadastrar Vendedor" class="btn deleddte btn-success">OK</a>
+        <a href="/lista-produto" title="Confirmar..." class="btn deleddte btn-success">OK</a>
       </div>
     </div>
   </div>
@@ -83,7 +82,7 @@
       $(document).ready(function () {
         $.ajax({
           type: 'GET',
-          url: "/api/vendedor",
+          url: "/api/products",
           dataType: "json",
         }).done(function (data) {
           var atualizaTable = '';
@@ -92,9 +91,8 @@
               id = value._id;
               atualizaTable += '<tr>';
               atualizaTable += '<td>' + value.nome + '</td>';
-              atualizaTable += '<td>' + value.rg + '</td>';
-              atualizaTable += '<td>' + value.email + '</td>';
-              atualizaTable += '<td>' + value.totalVendas + '</td>';
+              atualizaTable += '<td>' + value.preco + '</td>';
+              atualizaTable += '<td>' + value.descricao + '</td>';
               atualizaTable += '<td>' + '<button type="button" data-id=' + id + ' class="btn Excluir btn-danger btn-sm">Excluir</button >' + ' ' + '<a href="/editar-vendedor/' + id + '" title="Cadastrar Vendedor" class="btn deleddte btn-primary btn-sm">Alterar</a>' + '</td>';
               atualizaTable += '</tr>'
             });
@@ -106,10 +104,9 @@
   //AÇÃO EXCLUIR
 $('table').on('click', '.Excluir', function(){
   var idClicado = $(this).attr('data-id');
-  console.log(idClicado);
   $.ajax({
       type: 'DELETE',
-      url: '/api/vendedor/'+idClicado,
+      url: '/api/products/'+idClicado,
       success: function(response){
           $("#chamadaModal").modal('show');
       },
