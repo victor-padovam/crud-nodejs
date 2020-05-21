@@ -65,12 +65,15 @@ app.get('/editar-vendedor/:id', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
     res.render('dashboard');
-  });
+});
 
+app.get('/lista-produto', (req, res) => {
+    res.render('lista-produtos');
+});
 
 //Cadastro de Produto requisições API
-app.get('/cadastroProdutos', function(req, res){
-    res.render('form-produtos.handlebars');
+app.get('/CadastroProduto', function(req, res){
+    res.render('form-produtos');
 });
 
 //Cadastro de Clientes requisições API

@@ -5,7 +5,6 @@ var productSchema = new Schema({
     nome:{type:String, required : true},
     preco:Number,
     descricao:String
-
 });
 
 module.exports = mongoose.model('Produto', productSchema);
