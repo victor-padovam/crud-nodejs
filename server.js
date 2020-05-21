@@ -58,6 +58,22 @@ app.get('/lista-vendedor', function(req, res){
     res.render('lista-vendedor');
 });
 
+app.get('/editar-vendedor/:id', (req, res) => {
+  Vendedor.findById(req.params.id).sort({date:'desc'}).lean().then((vendedor) => {
+
+    res.render('editar-vendedor',{vendedor:vendedor});
+
+    }).catch((err) => {
+        req.flash('error_msg',"Houve um erro ao listar as categorias"+err);
+        res.redirect('http://localhost:8080/admin');
+
+    });
+});
+
+app.get('/dashboard', (req, res) => {
+    res.render('dashboard');
+  });
+
 
 //Cadastro de Produto requisições API
 app.get('/cadastroProdutos', function(req, res){
@@ -71,4 +87,8 @@ app.get('/cadastroClientes', function(req, res){
 
 app.listen(port, () => {
     console.log('Server OK');
+});
+
+app.get('/', function(req, res){
+    res.render('dashboard');
 });

@@ -43,7 +43,7 @@ exports.getAll = async (req, res) => {
 //GetById - controller
 exports.getById = async (req, res) => {
     try {
-        const id = req.params.productId;
+        const id = req.params.vendedorId;
         var data = await repository.getById(id);
         res.status(200).send(data);
     } catch (error) {
@@ -58,7 +58,7 @@ exports.getById = async (req, res) => {
 //PUT - controller
 exports.put = async (req, res) => {
     try {
-        const id = req.params.productId;    
+        const id = req.params.vendedorId;    
         const data = await repository.put(id, req.body);
         res.status(200).send({
             message:"Vendedor atualizado com sucesso",
@@ -75,7 +75,7 @@ exports.put = async (req, res) => {
 //DELETE - controller
 exports.delete = async (req, res) =>{
     try {
-        const id = req.params.productId;  
+        const id = req.params.vendedorId;  
         await repository.delete(id);
         res.status(200).send({
             message:"Vendedor removido com sucesso",
