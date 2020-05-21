@@ -48,13 +48,6 @@ app.get('/cadastroVendedor', function(req, res){
 });
 
 app.get('/lista-vendedor', function(req, res){
-  /*  Vendedor.find().then((vendedores) => {
-        res.render("lista-vendedor", {vendedores: vendedores.map(vendedor => vendedor.toJSON())})
-    }).catch((err) => {
-        req.flash("error_msg", "Houve um erro ao listar");
-        res.redirect("/");
-    })
-    */
     res.render('lista-vendedor');
 });
 
@@ -64,8 +57,8 @@ app.get('/editar-vendedor/:id', (req, res) => {
     res.render('editar-vendedor',{vendedor:vendedor});
 
     }).catch((err) => {
-        req.flash('error_msg',"Houve um erro ao listar as categorias"+err);
-        res.redirect('http://localhost:8080/admin');
+        req.flash('error_msg',"Houve um erro ao listar"+err);
+        res.redirect('lista-vendedor');
 
     });
 });
