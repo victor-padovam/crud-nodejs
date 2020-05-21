@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <body>
+     <!-- Modal -->
+<div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Produto Cadastrado com Exito...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif" alt="Girl in a jacket" width="210" style="margin-left: 120px;" height="140">
+      </div>
+      <div class="modal-footer">
+        <a href="/lista-produto" title="Cadastrar Vendedor" class="btn deleddte btn-success">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Modal -->
+
 <h3>Cadastro de Produto</h3>
 <hr>
 <div class="container">
-  <form action="./api/products" method="POST">
+  <form action="/lista-produto">
     <div class="form-group">
       <label for="nome">Nome:</label>
       <input type="nome" class="form-control" id="nome" placeholder="Digite o nome do Produto..." name="nome">
@@ -18,9 +39,24 @@
       <input type="text" class="form-control" id="descricao" placeholder="Digite a Descrição..." name="descricao">
     </div>
     <button type="submit" class="btn btn-success">Gravar</button>
-    <a href="/lista-vendedor" title="Cadastrar Vendedor" class="btn btn-primary">Voltar</a>
+    <a href="/lista-produto" title="Cadastrar Vendedor" class="btn btn-primary">Voltar</a>
   </form>
 </div>
-
 </body>
+
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+$('form').submit(function(e) {
+  e.preventDefault();
+  var dadosDoFormulario = $(this).serialize();
+  $.ajax({
+      url: '/api/products',
+      data: dadosDoFormulario,
+      type: 'POST',
+      success: function(data) {
+          $("#chamadaModal").modal('show');
+      }
+  })
+});
+</script>
 </html>

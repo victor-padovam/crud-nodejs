@@ -4,6 +4,8 @@ const app = express();
 var mongoose = require('mongoose');
 const handlebars = require('express-handlebars');
 const Vendedor = require("./src/app/models/vendedor");
+const Produto = require("./src/app/models/product");
+const Cliente = require("./src/app/models/cliente");
 
 
 //PERSISTÊNCIA
@@ -26,23 +28,19 @@ const signupRoute = require('./src/routes/signup-route');
 const loginRoute = require('./src/routes/login-route');
 const userRoute = require('./src/routes/user-routes');
 const vendedorRoute = require('./src/routes/vendedor-route');
-//Vincular a aplicacao (app) com o motor de rotas
-//Rota geral (teste)
+const clienteRoute = require('./src/routes/cliente-route');
 app.use('/api', indexRoute);
-//Rotas para produtos
 app.use('/api/products', productRoute);
-//Rota para registro
 app.use('/api/register', signupRoute);
-//Rota para login
 app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/vendedor', vendedorRoute);
-
+app.use('/api/cliente', clienteRoute);
 
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//Cadastro de Vendedor requisições API
+//LISTAS
 app.get('/cadastroVendedor', function(req, res){
     res.render('form-vendedor');
 });
@@ -50,17 +48,8 @@ app.get('/cadastroVendedor', function(req, res){
 app.get('/lista-vendedor', function(req, res){
     res.render('lista-vendedor');
 });
-
-app.get('/editar-vendedor/:id', (req, res) => {
-  Vendedor.findById(req.params.id).sort({date:'desc'}).lean().then((vendedor) => {
-
-    res.render('editar-vendedor',{vendedor:vendedor});
-
-    }).catch((err) => {
-        req.flash('error_msg',"Houve um erro ao listar"+err);
-        res.redirect('lista-vendedor');
-
-    });
+app.get('/lista-cliente', function(req, res){
+    res.render('lista-cliente');
 });
 
 app.get('/dashboard', (req, res) => {
@@ -77,9 +66,41 @@ app.get('/CadastroProduto', function(req, res){
 });
 
 //Cadastro de Clientes requisições API
-app.get('/cadastroClientes', function(req, res){
+app.get('/cadastroCliente', function(req, res){
     res.render('form-cliente');
 });
+
+//ALTERAÇÃO
+app.get('/editar-vendedor/:id', (req, res) => {
+  Vendedor.findById(req.params.id).sort({date:'desc'}).lean().then((vendedor) => {
+    res.render('editar-vendedor',{vendedor:vendedor});
+    }).catch((err) => {
+        req.flash('error_msg',"Houve um erro ao listar"+err);
+        res.redirect('lista-vendedor');
+
+    });
+});
+
+app.get('/editar-produto/:id', (req, res) => {
+Produto.findById(req.params.id).sort({date:'desc'}).lean().then((produto) => {
+    res.render('editar-produto',{produto:produto});
+    }).catch((err) => {
+        req.flash('error_msg',"Houve um erro ao listar"+err);
+        res.redirect('editar-produto');
+
+    });
+});
+
+app.get('/editar-cliente/:id', (req, res) => {
+Cliente.findById(req.params.id).sort({date:'desc'}).lean().then((cliente) => {
+    res.render('editar-cliente',{cliente:cliente});
+    }).catch((err) => {
+        req.flash('error_msg',"Houve um erro ao listar"+err);
+        res.redirect('editar-cliente');
+
+    });
+});
+
 
 app.listen(port, () => {
     console.log('Server OK');

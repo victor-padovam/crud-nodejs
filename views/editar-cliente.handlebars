@@ -1,16 +1,16 @@
+
 <!DOCTYPE html>
 <html>
+
 <body>
-
-<h3>Cadastro de Vendedor</h3>
+<h3>Editar Cliente</h3>
 <hr>
-
    <!-- Modal -->
 <div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Vendedor Cadastrado com Exito...</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Cliente Alterado com Exito...</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -19,32 +19,30 @@
         <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif" alt="Girl in a jacket" width="210" style="margin-left: 120px;" height="140">
       </div>
       <div class="modal-footer">
-        <a href="/lista-vendedor" title="Cadastrar Vendedor" class="btn deleddte btn-success">OK</a>
+        <a href="/lista-cliente" class="btn deleddte btn-success">OK</a>
       </div>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <form action="/lista-vendedor">
+  <form action="/api/cliente/{{cliente._id}}" >
+  <input  type="hidden" name="_id" value="{{cliente._id}}">
+  
     <div class="form-group">
       <label for="nome">Nome:</label>
-      <input type="nome" class="form-control" id="nome" placeholder="Digite o nome do Vendedor." name="nome">
+      <input type="nome" class="form-control" value="{{cliente.nome}}" id="nome" placeholder="Digite o nome do cliente." name="nome">
     </div>
     <div class="form-group">
       <label for="pwd">RG</label>
-      <input type="number" class="form-control" id="rg" placeholder="101520304" name="rg">
+      <input type="number" class="form-control" value="{{cliente.rg}}" id="rg" placeholder="Digite o rg..." name="rg">
     </div>
     <div class="form-group">
       <label for="email">E-mail</label>
-      <input type="email" class="form-control" id="email" placeholder="victor@exemplo.com" name="email">
-    </div>
-    <div class="form-group">
-      <label for="totalVendas">Total de Vendas</label>
-      <input type="totalVendas" class="form-control" id="totalVendas" placeholder="5" name="totalVendas">
+      <input type="email" class="form-control" value="{{cliente.email}}" id="email" placeholder="Digite o e-mail..." name="email">
     </div>
     <button type="submit" class="btn btn-success">Gravar</button>
-    <a href="/lista-vendedor" title="Cadastrar Vendedor" class="btn btn-primary">Voltar</a>
+    <a href="/lista-cliente" title="Voltar" class="btn btn-primary">Voltar</a>
   </form>
 </div>
 </body>
@@ -52,11 +50,12 @@
 <script>
 $('form').submit(function(e) {
     e.preventDefault();
+    var actionSubmitForm = $(this).attr('action');
     var dadosDoFormulario = $(this).serialize();
     $.ajax({
-        url: '/api/vendedor',
+        url: actionSubmitForm,
         data: dadosDoFormulario,
-        type: 'POST',
+        type: 'PUT',
         success: function(data) {
             $("#chamadaModal").modal('show');
         }

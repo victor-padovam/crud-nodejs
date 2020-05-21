@@ -1,15 +1,62 @@
-<form action="/action_page.php">
-  <div class="form-group">
-    <label for="email">Nome:</label>
-    <input type="email" class="form-control" id="email">
+<!DOCTYPE html>
+<html>
+<body>
+       <!-- Modal -->
+<div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cliente Cadastrado com Exito...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif" alt="Girl in a jacket" width="210" style="margin-left: 120px;" height="140">
+      </div>
+      <div class="modal-footer">
+        <a href="/lista-cliente"  class="btn deleddte btn-success">OK</a>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="pwd">RG:</label>
-    <input type="password" class="form-control" id="pwd">
-  </div>
-  <div class="form-group">
-    <label for="pwd">E-mail:</label>
-    <input type="password" class="form-control" id="pwd">
-  </div>
-  <button type="button" class="btn btn-success">Gravar</button>
-</form>
+</div>
+    <!-- Modal -->
+
+<h3>Cadastro de Cliente</h3>
+<hr>
+<div class="container">
+  <form action="/lista-cliente">
+    <div class="form-group">
+      <label for="nome">Nome:</label>
+      <input type="nome" class="form-control" id="nome" placeholder="Digite o nome..." name="nome">
+    </div>
+    <div class="form-group">
+      <label for="pwd">RG</label>
+      <input type="number" class="form-control" id="rg" placeholder="Digite o rg..." name="rg">
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" class="form-control" id="email" placeholder="Digite o e-mail..." name="email">
+    </div>
+    <button type="submit" class="btn btn-success">Gravar</button>
+    <a href="/lista-cliente"  class="btn btn-primary">Voltar</a>
+  </form>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+$('form').submit(function(e) {
+  e.preventDefault();
+  var dadosDoFormulario = $(this).serialize();
+  $.ajax({
+      url: 'api/cliente',
+      data: dadosDoFormulario,
+      type: 'POST',
+      success: function(data) {
+          $("#chamadaModal").modal('show');
+      }
+  })
+});
+</script>
+
+</html>

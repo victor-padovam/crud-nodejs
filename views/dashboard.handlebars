@@ -16,7 +16,7 @@
   <div class="card">
     <img class="card-img-top" src="https://cdn2.iconfinder.com/data/icons/business-charts/512/Demography_diagram-512.png" alt="Imagem de capa do card">
     <div class="card-body">
-     <h5 class="card-title">Clientes Cadastrados</h5>
+      <h5 class="card-title">Clientes Cadastrados</h5>
       <p class="card-text" id="totalCliente"></p>
     </div>
   </div>
@@ -51,13 +51,12 @@ $(document).ready(function () {
 $(document).ready(function () {
   $.ajax({
     type: 'GET',
-    url: "/api/clientes",
+    url: "/api/cliente",
     dataType: "json",
   }).done(function (data) {
     totalCliente = data.qtde;
       $('#totalCliente').text(totalCliente);
   });
 });
-
 
 </script>
