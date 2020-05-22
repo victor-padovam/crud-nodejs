@@ -6,7 +6,7 @@ const handlebars = require('express-handlebars');
 const Vendedor = require("./src/app/models/vendedor");
 const Produto = require("./src/app/models/product");
 const Cliente = require("./src/app/models/cliente");
-const Venda = require("./src/app/models/vendas");
+const Vendas = require("./src/app/models/vendas");
 
 
 //PERSISTÊNCIA
@@ -76,9 +76,6 @@ app.get('/cadastroCliente', function(req, res){
     res.render('form-cliente');
 });
 
-app.get('/graficos', function(req, res){
-    res.render('graficos');
-});
 
 //ALTERAÇÃO
 app.get('/editar-vendedor/:id', (req, res) => {
@@ -90,6 +87,16 @@ app.get('/editar-vendedor/:id', (req, res) => {
 
     });
 });
+
+app.get('/editar-vendas/:id', (req, res) => {
+    Vendas.findById(req.params.id).sort({date:'desc'}).lean().then((vendas) => {
+      res.render('editar-vendas',{vendas:vendas});
+      }).catch((err) => {
+          req.flash('error_msg',"Houve um erro ao listar"+err);
+          res.redirect('lista-vendedor');
+  
+      });
+  });
 
 app.get('/editar-produto/:id', (req, res) => {
 Produto.findById(req.params.id).sort({date:'desc'}).lean().then((produto) => {
@@ -110,6 +117,14 @@ Cliente.findById(req.params.id).sort({date:'desc'}).lean().then((cliente) => {
 
     });
 });
+
+app.get('/graficos', (req, res) => {
+    Vendas.find().sort({date:'desc'}).lean().then((Vendas) => {
+        res.render('graficos' ,{Vendas:Vendas});
+      }).catch((err) => {
+          req.flash('error_msg',"Houve um erro ao listar"+err);
+      });
+  });
 
 //Cdastro Vendas
 app.get('/cadastroVendas', (req, res) => {

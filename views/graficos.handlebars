@@ -1,6 +1,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="../../../dist/2.9.3/Chart.min.js"></script>
 
+<h5 style="margin-left: 340px;">Total de vendas realizadas por vendedor</h5>
+<canvas id="somaTodos"></canvas>
+<hr>
 <canvas id="totalVendedor"></canvas>
 <hr>
 <canvas id="totalProduto"></canvas>
@@ -8,82 +12,137 @@
 <canvas id="totalCliente"></canvas>
 
 <script>
-$(document).ready(function () {
-$.ajax({
-    type: 'GET',
-    url: "/api/vendedor",
-    dataType: "json",
-    }).done(function (data) {
-    totalVendedor = data.qtde;
-    gerarGraficos(totalVendedor);
-});
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "/api/vendedor",
+            dataType: "json",
+        }).done(function (data) {
+            totalVendedor = data.qtde;
+            gerarGraficos(totalVendedor);
+        });
 
-$.ajax({
-    type: 'GET',
-    url: "/api/products",
-    dataType: "json",
-    }).done(function (data) {
-    totalProduto = data.qtde;
-    gerarGraficosProduto(totalProduto);
-});
+        $.ajax({
+            type: 'GET',
+            url: "/api/products",
+            dataType: "json",
+        }).done(function (data) {
+            totalProduto = data.qtde;
+            gerarGraficosProduto(totalProduto);
 
-$.ajax({
-    type: 'GET',
-    url: "/api/cliente",
-    dataType: "json",
-    }).done(function (data) {
-    totalCliente = data.qtde;
-    gerarGraficosCliente(totalCliente);
-});
+        });
 
-});
+        $.ajax({
+            type: 'GET',
+            url: "/api/cliente",
+            dataType: "json",
+        }).done(function (data) {
+            totalCliente = data.qtde;
+            gerarGraficosCliente(totalCliente);
+        });
 
-function gerarGraficosCliente(totalCliente){
-var ctx = document.getElementById('totalCliente').getContext('2d');
-var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Total'],
-        datasets: [{
-            label: 'Clientes Cadastros',
-            backgroundColor: 'rgb(153, 102, 255, 0.2)',
-            borderColor: 'rgb(150, 99, 132)',
-            data: [totalCliente]
-        }]
+        $.ajax({
+            type: 'GET',
+            url: "/api/vendas",
+            dataType: "json",
+        }).done(function (data) {
+            $.each(data, function (key, value) {
+                //FAZ CONTAGEM DOS REPETIDOS
+                var temp = [];
+                var armazenaOsRepetidos = [];
+                for (var i = 0; i < value.length; i++) {
+                    if (temp.indexOf(value[i].vendedor) == -1) {
+                        temp.push(value[i].vendedor);
+                        var _data = {};
+                        _data.nome = value[i].vendedor;
+                        _data.totalRepetidos = 1;
+                        armazenaOsRepetidos.push(_data);
+                    } else {
+                        for (var j = 0; j < armazenaOsRepetidos.length; j++) {
+                            if (armazenaOsRepetidos[j].nome === value[i].vendedor) {
+                                var _x = parseInt(armazenaOsRepetidos[j].totalRepetidos) + 1;
+                                armazenaOsRepetidos[j].totalRepetidos = _x;
+                            }
+                        }
+                    }
+                }
+                gerarGraficosPizza(armazenaOsRepetidos);
+            });
+        });
+
+    });
+
+
+    function gerarGraficosPizza(armazenaOsRepetidos) {
+        var labels = armazenaOsRepetidos.map(function (e) {
+            return e.nome;
+        });
+
+        var data = armazenaOsRepetidos.map(function (e) {
+            return e.totalRepetidos;
+        });
+
+        var ctx = document.getElementById('somaTodos').getContext('2d');
+        var config = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total de Vendas',
+                    data: data,
+                    backgroundColor: ['#2777b9', '#ff3300', '#0000cc', '#2777b9', '#f1c40']
+                }]
+            },
+        };
+
+        var chart = new Chart(ctx, config);
     }
-});
-}
 
-function gerarGraficos(totalVendedor){
-var ctx = document.getElementById('totalVendedor').getContext('2d');
-var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Total'],
-        datasets: [{
-            label: 'Vendedor Cadastros',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [totalVendedor]
-        }]
+    function gerarGraficosCliente(totalCliente) {
+        var ctx = document.getElementById('totalCliente').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total'],
+                datasets: [{
+                    label: 'Clientes Cadastros',
+                    backgroundColor: 'rgb(153, 102, 255, 0.2)',
+                    borderColor: 'rgb(150, 99, 132)',
+                    data: [totalCliente]
+                }]
+            }
+        });
     }
-});
-}
 
-function gerarGraficosProduto(totalProduto){
-var ctx = document.getElementById('totalProduto').getContext('2d');
-var chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Total'],
-        datasets: [{
-            label: 'Produtos Cadastros',
-            backgroundColor: 'rgb(54, 162, 100, 0.2)',
-            borderColor: 'rgb(59, 99, 132)',
-            data: [totalProduto]
-        }]
+    function gerarGraficos(totalVendedor) {
+        var ctx = document.getElementById('totalVendedor').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total'],
+                datasets: [{
+                    label: 'Vendedor Cadastros',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [totalVendedor]
+                }]
+            }
+        });
     }
-});
-}
+
+    function gerarGraficosProduto(totalProduto) {
+        var ctx = document.getElementById('totalProduto').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total'],
+                datasets: [{
+                    label: 'Produtos Cadastros',
+                    backgroundColor: 'rgb(54, 162, 100, 0.2)',
+                    borderColor: 'rgb(59, 99, 132)',
+                    data: [totalProduto]
+                }]
+            }
+        });
+    }
 </script>
-

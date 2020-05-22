@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html>
-<body>
 
-<h3>Cadastro de Vendas</h3>
+<body>
+<h3>Editar Vendas</h3>
 <hr>
 
    <!-- Modal -->
@@ -10,7 +11,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Vendedor Cadastrado com Exito...</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Venda Alterado com Exito...</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -19,50 +20,52 @@
         <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif" alt="Girl in a jacket" width="210" style="margin-left: 120px;" height="140">
       </div>
       <div class="modal-footer">
-        <a href="/vendas-lista" class="btn deleddte btn-success">OK</a>
+        <a href="/lista-vendas" title="Cadastrar Vendedor" class="btn deleddte btn-success">OK</a>
       </div>
     </div>
   </div>
 </div>
 
 <div class="container">
-  <form action="/vendas-lista">
+  <form action="/api/products/{{vendas._id}}" >
+  <input  type="hidden" name="_id" value="{{vendas._id}}">
+  
     <div class="form-group">
       <label for="nome">Número da Venda:</label>
-      <input type="nome" class="form-control" id="numero" placeholder="Digite um número..." name="numero">
+      <input type="nome" class="form-control" id="numero" value="{{vendas.numero}}" placeholder="Digite um número..." name="numero">
     </div>
 
     <div class="form-group">
         <label>Vendedor que realizou a venda?</label>
-        <select class="form-control" name="vendedor" id="optionVendedorLista"></select>
+        <select class="form-control" name="vendedor" value="{{vendas.vendedor}}" id="optionVendedorLista"></select>
     </div>
 
     <div class="form-group">
         <label>Produto vendido?</label>
-        <select class="form-control" name="produto" id="optionProdutoLista"></select>
+        <select class="form-control" name="produto" id="optionProdutoLista">
+        </select>
     </div>
-
-  
     <button type="submit" class="btn btn-success">Gravar</button>
-    <a href="/vendas-lista" title="Cadastrar Vendedor" class="btn btn-primary">Voltar</a>
+    <a href="/vendas-lista" title="Voltar" class="btn btn-primary">Voltar</a>
   </form>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <script>
 $('form').submit(function(e) {
-e.preventDefault();
-var dadosDoFormulario = $(this).serialize();
-$.ajax({
-    url: '/api/vendas',
-    data: dadosDoFormulario,
-    type: 'POST',
-    success: function(data) {
-        $("#chamadaModal").modal('show');
-    }
-})
-});
-
+    e.preventDefault();
+    var actionSubmitForm = $(this).attr('action');
+    var dadosDoFormulario = $(this).serialize();
+    $.ajax({
+        url: actionSubmitForm,
+        data: dadosDoFormulario,
+        type: 'PUT',
+        success: function(data) {
+            $("#chamadaModal").modal('show');
+        }
+    })
+    });
+    
 //FAZ LISTAGEM VENDEDOR
 $(document).ready(function () {
 $.ajax({
@@ -75,7 +78,7 @@ $.ajax({
     $.each(data, function (key, value) {
     $.each(value, function (key, value) {
         id = value._id;
-        optionVendedorLista += '<option>' + value.nome + '</option>';
+        optionVendedorLista += '<option selected="' + value.nome +'">' + value.nome + '</option>';
     });
     $('#optionVendedorLista').html(optionVendedorLista);
     });
@@ -93,13 +96,11 @@ $.ajax({
     $.each(data, function (key, value) {
     $.each(value, function (key, value) {
         id = value._id;
-        optionProdutoLista += '<option>' + value.nome + '</option>';
+        optionProdutoLista += '<option  selected="' + value.nome +'">' + value.nome + '</option>';
     });
     $('#optionProdutoLista').html(optionProdutoLista);
     });
 });
 });
-
-      
 </script>
 </html>
