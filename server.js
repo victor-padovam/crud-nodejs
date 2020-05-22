@@ -6,6 +6,7 @@ const handlebars = require('express-handlebars');
 const Vendedor = require("./src/app/models/vendedor");
 const Produto = require("./src/app/models/product");
 const Cliente = require("./src/app/models/cliente");
+const Venda = require("./src/app/models/vendas");
 
 
 //PERSISTÊNCIA
@@ -29,6 +30,8 @@ const loginRoute = require('./src/routes/login-route');
 const userRoute = require('./src/routes/user-routes');
 const vendedorRoute = require('./src/routes/vendedor-route');
 const clienteRoute = require('./src/routes/cliente-route');
+const vendaRoute = require('./src/routes/vendas-route');
+
 app.use('/api', indexRoute);
 app.use('/api/products', productRoute);
 app.use('/api/register', signupRoute);
@@ -36,7 +39,7 @@ app.use('/api/login', loginRoute);
 app.use('/api/user', userRoute);
 app.use('/api/vendedor', vendedorRoute);
 app.use('/api/cliente', clienteRoute);
-
+app.use('/api/vendas', vendaRoute);
 app.engine('handlebars', handlebars({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -48,6 +51,11 @@ app.get('/cadastroVendedor', function(req, res){
 app.get('/lista-vendedor', function(req, res){
     res.render('lista-vendedor');
 });
+
+app.get('/vendas-lista', function(req, res){
+    res.render('lista-vendas');
+});
+
 app.get('/lista-cliente', function(req, res){
     res.render('lista-cliente');
 });
@@ -60,14 +68,16 @@ app.get('/lista-produto', (req, res) => {
     res.render('lista-produtos');
 });
 
-//Cadastro de Produto requisições API
 app.get('/CadastroProduto', function(req, res){
     res.render('form-produtos');
 });
 
-//Cadastro de Clientes requisições API
 app.get('/cadastroCliente', function(req, res){
     res.render('form-cliente');
+});
+
+app.get('/graficos', function(req, res){
+    res.render('graficos');
 });
 
 //ALTERAÇÃO
@@ -101,6 +111,24 @@ Cliente.findById(req.params.id).sort({date:'desc'}).lean().then((cliente) => {
     });
 });
 
+//Cdastro Vendas
+app.get('/cadastroVendas', (req, res) => {
+    Vendedor.find().sort({date:'desc'}).lean().then((vendedor) => {
+      res.render('form-vendas',{vendedor:vendedor});
+      }).catch((err) => {
+          req.flash('error_msg',"Houve um erro ao listar"+err);
+          res.redirect('lista-vendas');
+      });
+  });
+
+  app.get('/cadastroVendas', (req, res) => {
+    Produto.find().sort({date:'desc'}).lean().then((produto) => {
+      res.render('form-vendas',{produto:produto});
+      }).catch((err) => {
+          req.flash('error_msg',"Houve um erro ao listar"+err);
+          res.redirect('lista-vendas');
+      });
+  });
 
 app.listen(port, () => {
     console.log('Server OK');

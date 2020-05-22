@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td,
+    th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h4>Vendas Cadastrados</h4>
+      </div>
+      <div class="col-sm">
+
+      </div>
+      <div class="col-sm text-right">
+        <a href="#" title="Produtos Cadastrados" onClick="impressaoIndex();" class="btn deleddte btn-outline-primary">Impressão</a>
+        <a href="/cadastroVendas" title="Cadastrar" class="btn deleddte btn-success">CADASTRAR</a>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <body>
+    <div class="container">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>N° Venda</th>
+            <th>Vendedor</th>
+            <th>Produto</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="atualizaTable"></tbody>
+      </table>
+    </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Venda Excluida com Exito...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif"  width="210" style="margin-left: 120px;" margin-left="120px;" height="140">
+      </div>
+      <div class="modal-footer">
+        <a href="/vendas-lista" title="Confirmar..." class="btn deleddte btn-success">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Modal -->
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    
+  <!--FAZ LISTAGEM DA TABELZA-->
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          type: 'GET',
+          url: "/api/vendas",
+          dataType: "json",
+        }).done(function (data) {
+          var atualizaTable = '';
+          $.each(data, function (key, value) {
+            $.each(value, function (key, value) {
+              id = value._id;
+              atualizaTable += '<tr>';
+              atualizaTable += '<td>' + value.numero + '</td>';
+              atualizaTable += '<td>' + value.vendedor + '</td>';
+              atualizaTable += '<td>' + value.produto + '</td>';
+              atualizaTable += '<td>' + '<button type="button" data-id=' + id + ' class="btn Excluir btn-danger btn-sm">Excluir</button >' + ' ' + '<a href="/editar-vendas/' + id + '" title="Editar" class="btn deleddte btn-primary btn-sm">Alterar</a>' + '</td>';
+              atualizaTable += '</tr>'
+            });
+            $('#atualizaTable').html(atualizaTable);
+          });
+        });
+      });
+
+  //AÇÃO EXCLUIR
+$('table').on('click', '.Excluir', function(){
+  var idClicado = $(this).attr('data-id');
+  $.ajax({
+      type: 'DELETE',
+      url: '/api/vendas/'+idClicado,
+      success: function(response){
+          $("#chamadaModal").modal('show');
+      },
+      error: function(err){
+          alert('Ocorreu um erro ');
+      }
+
+  });
+});
+
+
+//AÇÃO Imprmir
+function impressaoIndex(){
+    window.print();
+}
+    </script>
+  </body>

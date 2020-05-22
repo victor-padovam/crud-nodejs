@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Cadastro de Vendas</h3>
+<hr>
+
+   <!-- Modal -->
+<div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vendedor Cadastrado com Exito...</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img src="https://i.ibb.co/xXytB7c/5595-success-animation.gif" alt="Girl in a jacket" width="210" style="margin-left: 120px;" height="140">
+      </div>
+      <div class="modal-footer">
+        <a href="/vendas-lista" class="btn deleddte btn-success">OK</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <form action="/vendas-lista">
+    <div class="form-group">
+      <label for="nome">Número da Venda:</label>
+      <input type="nome" class="form-control" id="numero" placeholder="Digite um número..." name="numero">
+    </div>
+
+    <div class="form-group">
+        <label>Vendedor que realizou a venda?</label>
+        <select class="form-control" name="vendedor" id="optionVendedorLista"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Produto vendido?</label>
+        <select class="form-control" name="produto" id="optionProdutoLista"></select>
+    </div>
+
+  
+    <button type="submit" class="btn btn-success">Gravar</button>
+    <a href="/vendas-lista" title="Cadastrar Vendedor" class="btn btn-primary">Voltar</a>
+  </form>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+$('form').submit(function(e) {
+e.preventDefault();
+var dadosDoFormulario = $(this).serialize();
+$.ajax({
+    url: '/api/vendas',
+    data: dadosDoFormulario,
+    type: 'POST',
+    success: function(data) {
+        $("#chamadaModal").modal('show');
+    }
+})
+});
+
+//FAZ LISTAGEM VENDEDOR
+$(document).ready(function () {
+$.ajax({
+    type: 'GET',
+    url: "/api/vendedor",
+    dataType: "json",
+}).done(function (data) {
+    var optionVendedorLista = '';
+    var id = '';
+    $.each(data, function (key, value) {
+    $.each(value, function (key, value) {
+        id = value._id;
+        optionVendedorLista += '<option value="'+ id +'">' + value.nome + '</option>';
+    });
+    $('#optionVendedorLista').html(optionVendedorLista);
+    });
+});
+});
+//FAZ LISTAGEM PRODUTO
+$(document).ready(function () {
+$.ajax({
+    type: 'GET',
+    url: "/api/products",
+    dataType: "json",
+}).done(function (data) {
+    var optionProdutoLista = '';
+    var id = '';
+    $.each(data, function (key, value) {
+    $.each(value, function (key, value) {
+        id = value._id;
+        optionProdutoLista += '<option>' + value.nome + '</option>';
+    });
+    $('#optionProdutoLista').html(optionProdutoLista);
+    });
+});
+});
+
+      
+</script>
+</html>

@@ -1,0 +1,89 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
+<canvas id="totalVendedor"></canvas>
+<hr>
+<canvas id="totalProduto"></canvas>
+<hr>
+<canvas id="totalCliente"></canvas>
+
+<script>
+$(document).ready(function () {
+$.ajax({
+    type: 'GET',
+    url: "/api/vendedor",
+    dataType: "json",
+    }).done(function (data) {
+    totalVendedor = data.qtde;
+    gerarGraficos(totalVendedor);
+});
+
+$.ajax({
+    type: 'GET',
+    url: "/api/products",
+    dataType: "json",
+    }).done(function (data) {
+    totalProduto = data.qtde;
+    gerarGraficosProduto(totalProduto);
+});
+
+$.ajax({
+    type: 'GET',
+    url: "/api/cliente",
+    dataType: "json",
+    }).done(function (data) {
+    totalCliente = data.qtde;
+    gerarGraficosCliente(totalCliente);
+});
+
+});
+
+function gerarGraficosCliente(totalCliente){
+var ctx = document.getElementById('totalCliente').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Total'],
+        datasets: [{
+            label: 'Clientes Cadastros',
+            backgroundColor: 'rgb(153, 102, 255, 0.2)',
+            borderColor: 'rgb(150, 99, 132)',
+            data: [totalCliente]
+        }]
+    }
+});
+}
+
+function gerarGraficos(totalVendedor){
+var ctx = document.getElementById('totalVendedor').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Total'],
+        datasets: [{
+            label: 'Vendedor Cadastros',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [totalVendedor]
+        }]
+    }
+});
+}
+
+function gerarGraficosProduto(totalProduto){
+var ctx = document.getElementById('totalProduto').getContext('2d');
+var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Total'],
+        datasets: [{
+            label: 'Produtos Cadastros',
+            backgroundColor: 'rgb(54, 162, 100, 0.2)',
+            borderColor: 'rgb(59, 99, 132)',
+            data: [totalProduto]
+        }]
+    }
+});
+}
+</script>
+
