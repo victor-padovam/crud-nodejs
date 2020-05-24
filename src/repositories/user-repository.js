@@ -6,8 +6,11 @@ require("dotenv-safe").config();
 exports.login = async (mail, pass) => {
     const user = await User.findOne({ email: mail });
     const id = user._id;
-    if (user.email === mail && user.validPassword(pass)) {
-        const token = jwt.sign({id}, process.env.SECRET, {expiresIn:60}); //1 min
+    console.log(user.validPassword(pass));
+
+    if (user.email == mail && user.validPassword(pass)) {
+        const token = jwt.sign({id}, process.env.SECRET, {expiresIn:8640}); 
+
         return token;
     }else{
         throw ({ status: 404, code: 'Usuário não encontrados', message: 'tente outro email' });   
@@ -40,7 +43,6 @@ exports.register = async (mail, pass) => {
 }
 
 exports.post = async (data) => {
-        console.log(data);
 
     var user = new User(data);
     await user.save();

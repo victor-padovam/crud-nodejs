@@ -76,14 +76,17 @@
 </div>
  <!-- Modal -->
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="/projeto.js"></script>
     
   <!--FAZ LISTAGEM DA TABELZA-->
     <script>
       $(document).ready(function () {
+        var tokenDoUsuarioLogado = localStorage.getItem('token');
         $.ajax({
           type: 'GET',
           url: "/api/products",
           dataType: "json",
+          headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
           var atualizaTable = '';
           $.each(data, function (key, value) {

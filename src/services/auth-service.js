@@ -9,6 +9,7 @@ exports.authorize = function (req, res, next) {
     } else {
         //Token encontrado. Verificar Token.
         jwt.verify(token, process.env.SECRET, function (error, decode) {
+            
             if (error) { //não conseguiu decodificar 
                 res.status(401).json({auth: false, message: 'Token inválido'});
             } else {

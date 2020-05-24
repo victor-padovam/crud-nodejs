@@ -10,7 +10,6 @@ exports.post = async (req, res) => {
             nome: req.body.nome,
             rg: req.body.rg,
             email: req.body.email,
-            totalVendas: req.body.totalVendas
         });
         res.render(
             'lista-vendedor'

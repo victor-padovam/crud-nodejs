@@ -4,7 +4,7 @@ const vendedorController = require('../controllers/vendedor-controller');
 const autorizacao = require('../services/auth-service')
 
 router.post("/", vendedorController.post);
-router.get("/", /*autorizacao.authorize,*/  vendedorController.getAll);
+router.get("/", autorizacao.authorize, vendedorController.getAll);
 router.get("/:vendedorId", vendedorController.getById);
 router.put("/:vendedorId", vendedorController.put)
 router.delete('/:vendedorId', vendedorController.delete);

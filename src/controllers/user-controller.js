@@ -1,4 +1,5 @@
-const userRepository = require('../repositories/user-repository')
+const userRepository = require('../repositories/user-repository');
+const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res) => {
     try {
@@ -16,6 +17,7 @@ exports.login = async (req, res) => {
 exports.userRegister = async function (req, res) {
     try {
         await userRepository.register(req.body.email, req.body.password);
+
         res.status(201).json({ "message": "usuário registrado com sucesso" });
     }
     catch (e) {
@@ -29,6 +31,7 @@ exports.userRegister = async function (req, res) {
 
 
 exports.post = async (req, res) => {
+
     try {
         await userRepository.post({
             email: req.body.email,
@@ -45,10 +48,8 @@ exports.post = async (req, res) => {
 }
 
 exports.getAll = async (req, res) => {
-    console.log(req);
      try {
         var data = await userRepository.get();
-            console.log(data);
 
         res.status(200).send({
             message: "Retorno de User e Quantidade",
@@ -64,6 +65,7 @@ exports.getAll = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
+    console.log(req.params.userId);
     try {
         const id = req.params.userId;
         await Userrepository.delete(id)

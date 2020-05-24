@@ -17,7 +17,6 @@ $( ".delete" ).click(function() {
           atualizaTable += '<td>' + value.nome + '</td>';
           atualizaTable += '<td>' + value.rg + '</td>';
           atualizaTable += '<td>' + value.email + '</td>';
-          atualizaTable += '<td>' + value.totalVendas + '</td>';
           atualizaTable += '<td>' + '<a href="http://www.example.com">' + '<span class="badge  badge-info"">'  + 'Alterar' + '</span>' + '</a>' + ' ' + '<a  class="delete" id=' + id + ' ' + '>' + '<span class="badge  badge-danger">'  + 'Excluir' + '</span>' + '</a>' +'</td>';
           atualizaTable += '</tr>'
         });

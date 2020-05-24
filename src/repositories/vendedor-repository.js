@@ -26,7 +26,6 @@ exports.put = async(id, data) =>{
             nome: data.nome,
             rg: data.rg,
             email:data.email,
-            totalVendas:data.totalVendas
         }
     });
 }

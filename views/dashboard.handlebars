@@ -1,20 +1,25 @@
 <div class="card-deck">
   <div class="card">
-    <img class="card-img-top" src="https://www.clipartmax.com/png/full/204-2045091_group-together-teamwork-icon-people-icon-flat-png.png" width="20"   alt="Imagem de capa do card">
+    <img class="card-img-top"
+      src="https://www.clipartmax.com/png/full/204-2045091_group-together-teamwork-icon-people-icon-flat-png.png"
+      width="20" alt="Imagem de capa do card">
     <div class="card-body">
       <h5 class="card-title">Vendedores Cadastrados</h5>
       <p class="card-text" id="totalVendedor"></p>
     </div>
   </div>
   <div class="card">
-    <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/2/26/Circle-icons-dolly.svg" alt="Imagem de capa do card">
+    <img class="card-img-top" src="https://upload.wikimedia.org/wikipedia/commons/2/26/Circle-icons-dolly.svg"
+      alt="Imagem de capa do card">
     <div class="card-body">
       <h5 class="card-title">Produtos Cadastrados</h5>
       <p class="card-text" id="totalProduto"></p>
     </div>
   </div>
   <div class="card">
-    <img class="card-img-top" src="https://cdn2.iconfinder.com/data/icons/business-charts/512/Demography_diagram-512.png" alt="Imagem de capa do card">
+    <img class="card-img-top"
+      src="https://cdn2.iconfinder.com/data/icons/business-charts/512/Demography_diagram-512.png"
+      alt="Imagem de capa do card">
     <div class="card-body">
       <h5 class="card-title">Clientes Cadastrados</h5>
       <p class="card-text" id="totalCliente"></p>
@@ -24,39 +29,42 @@
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <script>
   //Pega Total Do Vendedor
-$(document).ready(function () {
-  $.ajax({
-    type: 'GET',
-    url: "/api/vendedor",
-    dataType: "json",
-  }).done(function (data) {
-    totalVendedor = data.qtde;
+  $(document).ready(function () {
+    var tokenDoUsuarioLogado = localStorage.getItem('token');
+    $.ajax({
+      type: 'GET',
+      url: "/api/vendedor",
+      dataType: "json",
+      headers: {'x-access-token' : tokenDoUsuarioLogado},
+    }).done(function (data) {
+      totalVendedor = data.qtde;
       $('#totalVendedor').text(totalVendedor);
-  });
-});
+    });
 
-//Pega total Produto
-$(document).ready(function () {
-  $.ajax({
-    type: 'GET',
-    url: "/api/products",
-    dataType: "json",
-  }).done(function (data) {
-    totalProduto = data.qtde;
+
+    //Pega total Produto
+    $.ajax({
+      type: 'GET',
+      url: "/api/products",
+      dataType: "json",
+      headers: {'x-access-token' : tokenDoUsuarioLogado},
+    }).done(function (data) {
+      totalProduto = data.qtde;
       $('#totalProduto').text(totalProduto);
-  });
-});
+    });
 
-//Pega total Clientes
-$(document).ready(function () {
-  $.ajax({
-    type: 'GET',
-    url: "/api/cliente",
-    dataType: "json",
-  }).done(function (data) {
-    totalCliente = data.qtde;
+
+    //Pega total Clientes
+    $.ajax({
+      type: 'GET',
+      url: "/api/cliente",
+      headers: { 'x-access-token': tokenDoUsuarioLogado },
+      dataType: "json",
+      headers: {'x-access-token' : tokenDoUsuarioLogado},
+    }).done(function (data) {
+      totalCliente = data.qtde;
       $('#totalCliente').text(totalCliente);
+    });
   });
-});
 
 </script>

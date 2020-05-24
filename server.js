@@ -8,7 +8,9 @@ const Produto = require("./src/app/models/product");
 const Cliente = require("./src/app/models/cliente");
 const Vendas = require("./src/app/models/vendas");
 
-
+const path = require('path');
+app.use(express.static("assets"));
+app
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870.mongodb.net/test?retryWrites=true&w=majority',
 {useNewUrlParser:true, useUnifiedTopology: true }
@@ -48,9 +50,10 @@ app.get('/cadastroVendedor', function(req, res){
     res.render('form-vendedor');
 });
 
-app.get('/lista-vendedor', function(req, res){
-    res.render('lista-vendedor');
+app.get('/login', function(req, res){
+    res.render('login');
 });
+
 
 app.get('/vendas-lista', function(req, res){
     res.render('lista-vendas');
@@ -68,6 +71,10 @@ app.get('/lista-produto', (req, res) => {
     res.render('lista-produtos');
 });
 
+app.get('/lista-vendedor', (req, res) => {
+    res.render('lista-vendedor');
+});
+
 app.get('/CadastroProduto', function(req, res){
     res.render('form-produtos');
 });
@@ -76,6 +83,9 @@ app.get('/cadastroCliente', function(req, res){
     res.render('form-cliente');
 });
 
+app.get('/form-cadastro', function(req, res){
+    res.render('form-cadastro');
+});
 
 //ALTERAÇÃO
 app.get('/editar-vendedor/:id', (req, res) => {
@@ -150,5 +160,5 @@ app.listen(port, () => {
 });
 
 app.get('/', function(req, res){
-    res.render('dashboard');
+    res.render('login');
 });

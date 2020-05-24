@@ -78,10 +78,12 @@
   <!--FAZ LISTAGEM DA TABELZA-->
     <script>
       $(document).ready(function () {
+        var tokenDoUsuarioLogado = localStorage.getItem('token');
         $.ajax({
           type: 'GET',
           url: "/api/vendas",
           dataType: "json",
+          headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
           var atualizaTable = '';
           $.each(data, function (key, value) {

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v4.0.1">
+  <title>Vendas</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css">
+
+  <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#563d7c">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+  <!-- Modal -->
+  <div class="modal fade" id="chamadaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="https://i.ibb.co/VWWj1w9/19561-encontramos-seu-cadastro-bem-vindo.gif" alt="Girl in a jacket"
+            width="260" style="margin-left: 120px;" height="260">
+        </div>
+        <div class="modal-footer">
+          <a href="/dashboard" title="Cadastrar Vendedor" class="btn deleddte btn-success">Acessar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="chamadaModalErro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Usuario ou senha não encontrados</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img src="https://i.ibb.co/J7VsjHC/19562-nao-localizamos-o-cadastro.gif" alt="Girl in a jacket" width="260"
+            style="margin-left: 120px;" height="260">
+        </div>
+        <div class="modal-footer">
+          <a href="/login" title="Cadastrar Vendedor" class="btn deleddte btn-success">Voltar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <form class="form-signin">
+    <img class="mb-4" src="https://i.ibb.co/3mZD3pB/3619-profile.gif" style="margin-left: 42%;" alt="" width="150"
+      height="150">
+    <h1 class="h3 mb-3 font-weight-normal" style="margin-left: 40%;">Acessar Conta</h1>
+    <hr>
+    <div class="form-group  offset-4  col-md-4">
+      <label for="pwd">E-mail</label>
+      <input type="email" class="form-control" id="email" placeholder="Digite o email..." name="email">
+    </div>
+    <div class="form-group offset-4  col-md-4">
+      <label for="pwd">Senha</label>
+      <input type="number" class="form-control" id="password" placeholder="Digite sua senha..." name="password">
+    </div>
+    <div class="form-group offset-4  col-md-4">
+       <a href="/form-cadastro" value="remember-me" class="offset-4"> Não tem cadastro?
+    </div>
+    <div class="checkbox mb-3">
+      <hr>
+    </div>
+    <button class="btn col-md-4 offset-4  btn-primary btn-block" type="submit">Entrar</button>
+  </form>
+</body>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="/projeto.js"></script>
+<script>
+  $('form').submit(function (e) {
+    e.preventDefault();
+    var dadosDoFormulario = $(this).serialize();
+    submitFormLogin(dadosDoFormulario);
+  });
+</script>
+
+</html>

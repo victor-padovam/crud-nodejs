@@ -13,10 +13,12 @@
 
 <script>
     $(document).ready(function () {
+        var tokenDoUsuarioLogado = localStorage.getItem('token');
         $.ajax({
             type: 'GET',
             url: "/api/vendedor",
             dataType: "json",
+            headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
             totalVendedor = data.qtde;
             gerarGraficos(totalVendedor);
@@ -26,6 +28,7 @@
             type: 'GET',
             url: "/api/products",
             dataType: "json",
+            headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
             totalProduto = data.qtde;
             gerarGraficosProduto(totalProduto);
@@ -36,6 +39,7 @@
             type: 'GET',
             url: "/api/cliente",
             dataType: "json",
+            headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
             totalCliente = data.qtde;
             gerarGraficosCliente(totalCliente);
@@ -45,6 +49,7 @@
             type: 'GET',
             url: "/api/vendas",
             dataType: "json",
+            headers: {'x-access-token' : tokenDoUsuarioLogado},
         }).done(function (data) {
             $.each(data, function (key, value) {
                 //FAZ CONTAGEM DOS REPETIDOS
@@ -121,7 +126,7 @@
             data: {
                 labels: ['Total'],
                 datasets: [{
-                    label: 'Vendedor Cadastros',
+                    label: 'Cadastro de Vendedor',
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: [totalVendedor]
@@ -137,7 +142,7 @@
             data: {
                 labels: ['Total'],
                 datasets: [{
-                    label: 'Produtos Cadastros',
+                    label: 'Cadastro de Produtos',
                     backgroundColor: 'rgb(54, 162, 100, 0.2)',
                     borderColor: 'rgb(59, 99, 132)',
                     data: [totalProduto]
