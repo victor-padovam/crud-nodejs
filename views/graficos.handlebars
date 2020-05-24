@@ -2,13 +2,19 @@
 <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="../../../dist/2.9.3/Chart.min.js"></script>
 
-<h5 style="margin-left: 340px;">Total de vendas realizadas por vendedor</h5>
+<h5 style="margin-left: 340px;">Total De Vendas Realizadas Por Vendedor</h5>
 <canvas id="somaTodos"></canvas>
 <hr>
+<h5 style="margin-left: 38%;">Produtos Mais Vendidos</h5>
+<canvas id="somaTodosProduto"></canvas>
+<hr>
+<h5 style="margin-left: 42%;">Total De Vendedor Cadastrados</h5>
 <canvas id="totalVendedor"></canvas>
 <hr>
+<h5 style="margin-left: 42%;">Total De Produto Cadastrados</h5>
 <canvas id="totalProduto"></canvas>
 <hr>
+<h5 style="margin-left: 42%;">Total De Cliente Cadastrados</h5>
 <canvas id="totalCliente"></canvas>
 
 <script>
@@ -18,7 +24,7 @@
             type: 'GET',
             url: "/api/vendedor",
             dataType: "json",
-            headers: {'x-access-token' : tokenDoUsuarioLogado},
+            headers: { 'x-access-token': tokenDoUsuarioLogado },
         }).done(function (data) {
             totalVendedor = data.qtde;
             gerarGraficos(totalVendedor);
@@ -28,7 +34,7 @@
             type: 'GET',
             url: "/api/products",
             dataType: "json",
-            headers: {'x-access-token' : tokenDoUsuarioLogado},
+            headers: { 'x-access-token': tokenDoUsuarioLogado },
         }).done(function (data) {
             totalProduto = data.qtde;
             gerarGraficosProduto(totalProduto);
@@ -39,7 +45,7 @@
             type: 'GET',
             url: "/api/cliente",
             dataType: "json",
-            headers: {'x-access-token' : tokenDoUsuarioLogado},
+            headers: { 'x-access-token': tokenDoUsuarioLogado },
         }).done(function (data) {
             totalCliente = data.qtde;
             gerarGraficosCliente(totalCliente);
@@ -49,7 +55,7 @@
             type: 'GET',
             url: "/api/vendas",
             dataType: "json",
-            headers: {'x-access-token' : tokenDoUsuarioLogado},
+            headers: { 'x-access-token': tokenDoUsuarioLogado },
         }).done(function (data) {
             $.each(data, function (key, value) {
                 //FAZ CONTAGEM DOS REPETIDOS
@@ -75,8 +81,62 @@
             });
         });
 
+        $.ajax({
+            type: 'GET',
+            url: "/api/vendas",
+            dataType: "json",
+            headers: { 'x-access-token': tokenDoUsuarioLogado },
+        }).done(function (data) {
+            $.each(data, function (key, value) {
+                //FAZ CONTAGEM DOS REPETIDOS
+                var temp = [];
+                var armazenaOsRepetidosProdutos = [];
+                for (var i = 0; i < value.length; i++) {
+                    if (temp.indexOf(value[i].produto) == -1) {
+                        temp.push(value[i].produto);
+                        var _data = {};
+                        _data.nome = value[i].produto;
+                        _data.totalRepetidos = 1;
+                        armazenaOsRepetidosProdutos.push(_data);
+                    } else {
+                        for (var j = 0; j < armazenaOsRepetidosProdutos.length; j++) {
+                            if (armazenaOsRepetidosProdutos[j].nome === value[i].produto) {
+                                var _x = parseInt(armazenaOsRepetidosProdutos[j].totalRepetidos) + 1;
+                                armazenaOsRepetidosProdutos[j].totalRepetidos = _x;
+                            }
+                        }
+                    }
+                }
+                gerarGraficosPizzaProdutos(armazenaOsRepetidosProdutos);
+            });
+        });
+
     });
 
+    function gerarGraficosPizzaProdutos(armazenaOsRepetidosProdutos) {
+        var labels = armazenaOsRepetidosProdutos.map(function (e) {
+            return e.nome;
+        });
+
+        var data = armazenaOsRepetidosProdutos.map(function (e) {
+            return e.totalRepetidos;
+        });
+
+        var ctx = document.getElementById('somaTodosProduto').getContext('2d');
+        var config = {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Produtos Mias Vendidos',
+                    data: data,
+                    backgroundColor: ['#8A2BE2', '#FF1493', '#800000', '#2777b9', '#FF4500']
+                }]
+            },
+        };
+
+        var chart = new Chart(ctx, config);
+    }
 
     function gerarGraficosPizza(armazenaOsRepetidos) {
         var labels = armazenaOsRepetidos.map(function (e) {
