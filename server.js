@@ -64,7 +64,7 @@ app.get('/lista-cliente', function(req, res){
 });
 
 app.get('/dashboard', (req, res) => {
-    res.render('dashboard');
+    res.render('graficos');
 });
 
 app.get('/lista-produto', (req, res) => {
@@ -128,13 +128,7 @@ Cliente.findById(req.params.id).sort({date:'desc'}).lean().then((cliente) => {
     });
 });
 
-app.get('/graficos', (req, res) => {
-    Vendas.find().sort({date:'desc'}).lean().then((Vendas) => {
-        res.render('graficos' ,{Vendas:Vendas});
-      }).catch((err) => {
-          req.flash('error_msg',"Houve um erro ao listar"+err);
-      });
-  });
+
 
 //Cdastro Vendas
 app.get('/cadastroVendas', (req, res) => {

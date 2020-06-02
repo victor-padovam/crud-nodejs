@@ -32,12 +32,12 @@
   
     <div class="form-group">
       <label for="nome">Número da Venda:</label>
-      <input type="nome" class="form-control" id="numero" value="{{vendas.numero}}" placeholder="Digite um número..." name="numero">
+      <input type="nome" class="form-control" id="numero" placeholder="Digite um número..." name="numero">
     </div>
 
     <div class="form-group">
         <label>Vendedor que realizou a venda?</label>
-        <select class="form-control" name="vendedor" value="{{vendas.vendedor}}" id="optionVendedorLista"></select>
+        <select class="form-control" name="vendedor"  id="optionVendedorLista"></select>
     </div>
 
     <div class="form-group">
@@ -66,30 +66,33 @@ $('form').submit(function(e) {
     })
     });
     
-//FAZ LISTAGEM VENDEDOR
+//FAZ LISTAGEM VENDEDOR EDITAR
 $(document).ready(function () {
+var tokenDoUsuarioLogado = localStorage.getItem('token');
+//FAZ LISTAGEM VENDEDOR
 $.ajax({
     type: 'GET',
     url: "/api/vendedor",
     dataType: "json",
+    headers: {'x-access-token' : tokenDoUsuarioLogado},
 }).done(function (data) {
     var optionVendedorLista = '';
     var id = '';
     $.each(data, function (key, value) {
     $.each(value, function (key, value) {
         id = value._id;
-        optionVendedorLista += '<option selected="' + value.nome +'">' + value.nome + '</option>';
+        optionVendedorLista += '<option  selected="' + value.nome +'">' + value.nome + '</option>';
     });
     $('#optionVendedorLista').html(optionVendedorLista);
     });
 });
-});
+
 //FAZ LISTAGEM PRODUTO
-$(document).ready(function () {
 $.ajax({
     type: 'GET',
     url: "/api/products",
     dataType: "json",
+    headers: {'x-access-token' : tokenDoUsuarioLogado},
 }).done(function (data) {
     var optionProdutoLista = '';
     var id = '';
