@@ -10,7 +10,13 @@ const Vendas = require("./src/app/models/vendas");
 
 const path = require('path');
 app.use(express.static("assets"));
-app
+
+//SOCKET
+app.get('/atendimento', function(req, res){
+    res.render('atendimento');
+});
+
+
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870.mongodb.net/test?retryWrites=true&w=majority',
 {useNewUrlParser:true, useUnifiedTopology: true }
@@ -64,7 +70,7 @@ app.get('/lista-cliente', function(req, res){
 });
 
 app.get('/dashboard', (req, res) => {
-    res.render('dashboard');
+    res.render('graficos');
 });
 
 app.get('/lista-produto', (req, res) => {
@@ -128,13 +134,7 @@ Cliente.findById(req.params.id).sort({date:'desc'}).lean().then((cliente) => {
     });
 });
 
-app.get('/graficos', (req, res) => {
-    Vendas.find().sort({date:'desc'}).lean().then((Vendas) => {
-        res.render('graficos' ,{Vendas:Vendas});
-      }).catch((err) => {
-          req.flash('error_msg',"Houve um erro ao listar"+err);
-      });
-  });
+
 
 //Cdastro Vendas
 app.get('/cadastroVendas', (req, res) => {
