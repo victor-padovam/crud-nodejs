@@ -17,6 +17,7 @@ app.get('/atendimento', function(req, res){
 });
 
 
+
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870.mongodb.net/test?retryWrites=true&w=majority',
 {useNewUrlParser:true, useUnifiedTopology: true }
