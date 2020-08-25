@@ -10,7 +10,14 @@ const Vendas = require("./src/app/models/vendas");
 
 const path = require('path');
 app.use(express.static("assets"));
-app
+
+//SOCKET
+app.get('/atendimento', function(req, res){
+    res.render('atendimento');
+});
+
+
+
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://victorpadovan1997:majority@trabalhonavarro-1q870.mongodb.net/test?retryWrites=true&w=majority',
 {useNewUrlParser:true, useUnifiedTopology: true }
