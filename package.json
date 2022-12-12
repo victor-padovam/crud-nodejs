@@ -23,7 +23,7 @@
     "chart.js": "^2.9.3",
     "dotenv-safe": "^8.2.0",
     "ejs": "^3.1.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-handlebars": "^4.0.4",
     "handlebars": "^4.7.6",
     "jsonwebtoken": "^8.5.1",
